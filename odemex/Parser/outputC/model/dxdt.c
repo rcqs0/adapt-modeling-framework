@@ -6,7 +6,7 @@ int rhs( realtype t, N_Vector y, N_Vector ydot, void *f_data ) {
 
 	struct mData *data = ( struct mData * ) f_data;
 
-	realtype BW , G , Gb , Gin , Gtot , I , Ib , Ir , Ra , Ra_g , SI , Vg , X , dGdt , dXdt , dxdt , p1 , p2 , p3 , ra0 , ra1 , ra2 , ra3 , ra4 , ra5 , ra6 , ra7 , ra8 , rab ;
+	realtype BW , G , Gb , Gin , Gtot , I , Ib , Ir , Ra_g , SI , Vg , X , dGdt , dXdt , dxdt , p1 , p2 , p3 , ra0 , ra1 , ra3 , ra4 , ra5 , ra6 , ra7 , ra8 , rab ;
 
 	realtype *stateVars;
 	realtype *ydots;
