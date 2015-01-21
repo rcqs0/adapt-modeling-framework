@@ -1,5 +1,5 @@
 function result = runADAPT(model)
-
+% one line is changed
 import AMF.*
 
 model.time = getTime(model);
