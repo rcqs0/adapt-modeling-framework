@@ -1,5 +1,4 @@
 function result = runADAPT(model)
-% kssksk
 import AMF.*
 
 model.time = getTime(model);
