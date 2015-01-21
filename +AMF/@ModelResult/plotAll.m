@@ -1,6 +1,14 @@
-function this = plotAll(this, type, mode)
+function this = plotAll(this, type, varargin)
 
-if nargin < 3, mode = 'TRAJ'; end
+if nargin < 3, mode = 'TRAJ'; 
+else mode = varargin{1};
+end
+
+if length(varargin)>1
+    split = varargin{2};
+else
+    split = 9;
+end
 
 import AMF.utils.defineCustomColormap
 
@@ -9,15 +17,20 @@ if strcmpi(type, 'PARAMETERS')
     comps = comps(logical([this.parameters.fit]));
 end
 
+
 n = length(comps);
-ns = sqrt(n);
+ns = sqrt(split);
+% ns = sqrt(n);
 
 numIter = this.options.numIter;
 
 figure('Name', upper(type));
 
 for i = 1:n
-    subplot(ceil(ns),ceil(ns),i); hold on;
+    figure(ceil(i/split));
+    counter = ceil(i/split);
+    subplot(ceil(ns),ceil(ns),i-(counter-1)*split); hold on;
+%     subplot(ceil(ns),ceil(ns),i); hold on;
 
     comp = comps(i);
     
@@ -31,9 +44,10 @@ for i = 1:n
             plotHist(this, comp, colorMap);
             
         case 'HIST_LOG'
-            
-            % TODO: plot logarithmic histograms
-            
+          % TODO: plot logarithmic histograms
+        case 'MAD' % median absolute deviation
+            plotMad(this, comp, 'g');
+
         otherwise
             error('Unknown plot mode %s', mode);
     end
