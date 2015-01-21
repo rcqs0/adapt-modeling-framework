@@ -1,5 +1,5 @@
 function result = runADAPT(model)
-% kssksk
+
 import AMF.*
 
 model.time = getTime(model);
@@ -27,14 +27,12 @@ model.result.time = t;
 result = model.result;
 
 tic
+utils.parfor_progress(numIter);
 parfor it = 1:numIter
     model2 = model; % parfor fix
     elt = 0;
     
-    tries = 1;
     success = 0;
-    
-    tic
     while ~success
         try
             if model.options.randPars, randomizeParameters(model2); end
@@ -42,21 +40,26 @@ parfor it = 1:numIter
 
             parseAll(model2);
 
+            tic
             for ts = 1:length(t)
                 fitTimeStep(model2, ts);
             end
+            elt = toc;
             
             success = 1;
         catch err
-            tries = tries + 1;
+            rethrow(err)
+%             disp(['ERROR: ' err.message])
+            utils.parfor_progress2;
         end
     end
-    elt = toc;
+    utils.parfor_progress;
 
-    fprintf('Computed trajectory %d [%d] - %.2fs (%d)\n', it, max(model2.result.sse), elt, tries);
+%     fprintf('Computed trajectory %d [%d] - %.2fs\n', it, max(model2.result.sse), elt);
     
     result(it) = model2.result;
 end
+parfor_progress(0);
 toc
 
 result = AMF.ModelResult(model, result);
