@@ -1,6 +1,5 @@
 function result = runADAPT(model)
 import AMF.*
-% lolol
 model.time = getTime(model);
 t = model.time;
 
